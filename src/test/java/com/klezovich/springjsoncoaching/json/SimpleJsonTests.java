@@ -1,6 +1,7 @@
 package com.klezovich.springjsoncoaching.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -31,6 +32,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 //TODO: Read this https://www.baeldung.com/jackson-object-mapper-tutorial
@@ -107,6 +109,29 @@ public class SimpleJsonTests {
         log.info(json);
         assertThat(json, not(containsString("id")));
         assertThat(json, containsString("name"));
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    static class UserEntity1 {
+        @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+        private Long id;
+        private String name;
+    }
+
+    @Test
+    void testCanIgnoreOnDeserealizationButNotOnSerialisation() throws JsonProcessingException {
+        var json = mapper.writeValueAsString(new UserEntity1(1L, "AK"));
+
+        log.info(json);
+        assertThat(json, containsString("id"));
+        assertThat(json, containsString("name"));
+
+        var user = mapper.readValue(json, UserEntity1.class);
+        assertNull(user.getId());
+        assertEquals("AK", user.getName());
     }
 
 
