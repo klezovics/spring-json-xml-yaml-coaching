@@ -1,15 +1,21 @@
 package com.klezovich.springjsoncoaching.json;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.Version;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.klezovich.springjsoncoaching.util.FileReader;
 import com.klezovich.springjsoncoaching.json.custom.CustomUserDeserializer;
 import com.klezovich.springjsoncoaching.json.custom.CustomUserSerializer;
 import com.klezovich.springjsoncoaching.json.domain.User;
+import com.klezovich.springjsoncoaching.util.FileReader;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +25,8 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
@@ -27,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //TODO: Read this https://www.baeldung.com/jackson-object-mapper-tutorial
 //TODO: Read about running asserts on json https://www.baeldung.com/jsonassert
+@Slf4j
 public class SimpleJsonTests {
 
     private ObjectMapper mapper;
@@ -79,6 +88,25 @@ public class SimpleJsonTests {
 
         assertEquals("AK", user.get("name"));
         assertEquals(31, user.get("age"));
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    static class UserEntity {
+        @JsonIgnore
+        private Long id;
+        private String name;
+    }
+
+    @Test
+    void testCanMarkPropertyAsIgnored() throws JsonProcessingException {
+        var json = mapper.writeValueAsString(new UserEntity(1L, "AK"));
+
+        log.info(json);
+        assertThat(json, not(containsString("id")));
+        assertThat(json, containsString("name"));
     }
 
 
