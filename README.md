@@ -77,17 +77,21 @@ OK, now let's think about how we might want to change this standard
 behaviour during serialisation and deserialisation.
 
 == Serealisation use cases ==
-1. Rename fields during serialisation.
-2. Do not serialise fields, which are null.
-3. Flatten a nested structure during serialisation.
-  3.1 Flatten a map
-  3.2 Flatter a class
-4. Filter out some fields during serialisation
-  4.1 Filter
-  4.2 Views
-5. Add custom serialiser, which will replace an object with its toString() value.
-6. Control property order during serialisaiton
-7. Control how a specific class gets serialised
+1. Just write out the full object
+2. Do not serialize some secret fields 
+  2.1 Always @JsonIgnore
+  2.2 Based on some condition - filters, views
+  2.3 Do not deserealize nulls
+3. Control serialisation process
+  3.1 Custom serealizer
+  3.2 @JsonValue
+4. Flatten objects
+  4.1 Flatten a map
+  4.2 Flatten a nested object
+5. Control property order
+6. Generate classes from JsonSchema
+7. Control date format during deserealisation
+8. Merge objects to allow for overrides
 
 == Deserialisation use cases ==
 1. Rename property values or configure multiple property names.
