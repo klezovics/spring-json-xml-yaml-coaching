@@ -101,3 +101,5 @@ behaviour during serialisation and deserialisation.
 5. Use property value injections.
 6. Do some transformations on the data during deserialisation
 
+== Both == 
+1. How to make a field serealizable, but not deserealizable
