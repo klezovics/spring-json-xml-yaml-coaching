@@ -44,9 +44,11 @@ public class JsonFilterTest {
 
         var json = mapper.writer(filterProvider).writeValueAsString(user);
 
+        //Check that password is filtered out
         assertThat(json, not(containsString("password")));
         assertThat(json, not(containsString("pwd")));
 
+        //Check that everything else serialised
         assertThat(json, containsString("name"));
         assertThat(json, containsString("AK"));
         assertThat(json, containsString("country"));
