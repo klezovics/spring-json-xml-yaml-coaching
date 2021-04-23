@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //Based on https://www.baeldung.com/jackson-nested-values
 public class NestedJsonTest {
 
+    private final String json = FileReader.get("json/nested/product.json");
     private ObjectMapper mapper;
 
     @BeforeEach
@@ -27,14 +28,14 @@ public class NestedJsonTest {
 
     @Test
     void testCanDeserealiseNestedUsingAnnotation() throws JsonProcessingException {
-        var product = mapper.readValue(FileReader.get("json/nested/product.json"), Product.class);
+        var product = mapper.readValue(json, Product.class);
 
         assertCorrectlyDeserealised(product);
     }
 
     @Test
     void testCanDeserealizeUsingJsonNode() throws JsonProcessingException {
-        var jsonNode = mapper.readTree(FileReader.get("json/nested/product.json"));
+        var jsonNode = mapper.readTree(json);
 
         var product = new Product();
 
@@ -53,10 +54,11 @@ public class NestedJsonTest {
         module.addDeserializer(Product.class, new ProductDeserializer());
         mapper.registerModule(module);
 
-        var product = mapper.readValue(FileReader.get("json/nested/product.json"),Product.class);
+        var product = mapper.readValue(json, Product.class);
 
         assertCorrectlyDeserealised(product);
     }
+
 
     static class ProductDeserializer extends StdDeserializer<Product> {
 
