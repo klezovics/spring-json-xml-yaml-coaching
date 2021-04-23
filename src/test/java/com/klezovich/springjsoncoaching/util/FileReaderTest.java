@@ -1,5 +1,6 @@
-package com.klezovich.springjsoncoaching;
+package com.klezovich.springjsoncoaching.util;
 
+import com.klezovich.springjsoncoaching.util.FileReader;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

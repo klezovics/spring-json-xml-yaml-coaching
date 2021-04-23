@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.klezovich.springjsoncoaching.json.User;
+import com.klezovich.springjsoncoaching.json.domain.User;
 
 import java.io.IOException;
 

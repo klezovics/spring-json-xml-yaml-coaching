@@ -1,4 +1,4 @@
-package com.klezovich.springjsoncoaching.json;
+package com.klezovich.springjsoncoaching.json.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
